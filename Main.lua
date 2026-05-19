@@ -40,29 +40,26 @@ local MainWindow = Rayfield:CreateWindow({
 })
 
 local MainTab = MainWindow:CreateTab("🏠 Home", nil)
-local MainSection = MainTab:CreateSection("Main")
+MainTab:CreateSection("Main")
 
 Rayfield:Notify({
    Title = "Executed Script!",
    Content = "Have Fun!",
    Duration = 4.5,
-   Image = nil,
 })
 
-local Button = MainTab:CreateButton({
+MainTab:CreateButton({
    Name = "Fly",
    Callback = function()
       loadstring(game:HttpGet("https://pastefy.app/h8KwvbDk/raw"))()
    end,
 })
 
--- Walkspeed slider
-local WalkSpeedSlider = MainTab:CreateSlider({
+MainTab:CreateSlider({
    Name = "Walkspeed",
    Range = {16, 250},
    Increment = 1,
    CurrentValue = 16,
-   Flag = "WalkSpeed",
 
    Callback = function(Value)
       local char = game.Players.LocalPlayer.Character
@@ -72,57 +69,22 @@ local WalkSpeedSlider = MainTab:CreateSlider({
    end
 })
 
--- Brainrot Tab (FIXED: correct window reference)
+-- Brainrot Tab
 local Tab = MainWindow:CreateTab("🧠 Brainrot Spawner", nil)
-local Section = Tab:CreateSection("Spawner")
+Tab:CreateSection("Spawner")
 
 local Brainrots = {
-    "Noobini Pizzanini",
-    "Lirili Larilà",
-    "Tim Cheese",
-    "Fluriflura",
-    "Talpa Di Fero",
-    "Svinina Bombardino",
-    "Pipi Kiwi",
-    "Tartaragno",
-    "Pipi Corni",
-    "Trippi Troppi",
-    "Gangster Footera",
-    "Bandito Bobritto",
-    "Boneca Ambalabu",
-    "Cacto Hipopotamo",
-    "Ta Ta Ta Ta Sahur",
-    "Tric Trac Baraboom",
-    "Pipi Avocado",
-    "Cappuccino Assassino",
-    "Brr Brr Patapim",
-    "Avocadini Antilopini",
-    "Salamino Penguino",
-    "Penguino Cocosino",
-    "Mummio Rappitto",
-    "Burbaloni Loliloli",
-    "Chimpanzini Bananini",
-    "Ballerina Cappuccina",
-    "Glorbo Fruttodrillo",
-    "Sigma Boy",
-    "Sigma Girl",
-    "Frigo Camelo",
-    "Orangutini Ananassini",
-    "Bombombini Gusini",
-    "Tree Tree Tree Sahur",
-    "Cocofanto Elefanto",
-    "Gattatino Nyanino",
-    "Trenostruzzo Turbo 3000",
-    "Piccione Macchina",
-    "Bambu Bambu Sahur",
-    "La Vacca Saturno Saturnita",
-    "Nuclearo Dinossauro",
-    "Garama & Madundung",
-    "La Grande Combinasion",
-    "Spaghetti Tualetti",
-    "Strawberry Elephant",
-    "Meowl",
-    "Skibidi Toilet"
+    "Noobini Pizzanini","Lirili Larilà","Tim Cheese","Fluriflura","Talpa Di Fero",
+    "Svinina Bombardino","Pipi Kiwi","Tartaragno","Pipi Corni","Trippi Troppi",
+    "Gangster Footera","Bandito Bobritto","Boneca Ambalabu","Cacto Hipopotamo",
+    "Ta Ta Ta Ta Sahur","Tric Trac Baraboom","Pipi Avocado","Cappuccino Assassino",
+    "Brr Brr Patapim","Avocadini Antilopini","Salamino Penguino","Penguino Cocosino",
+    "Mummio Rappitto","Burbaloni Loliloli","Chimpanzini Bananini","Ballerina Cappuccina",
+    "Glorbo Fruttodrillo","Sigma Boy","Sigma Girl","Frigo Camelo","Orangutini Ananassini",
+    "Bombombini Gusini","Tree Tree Tree Sahur","Cocofanto Elefanto","Gattatino Nyanino",
+    "Trenostruzzo Turbo 3000","Piccione Macchina","Bambu Bambu Sahur",
+    "La Vacca Saturno Saturnita","Nuclearo Dinossauro","Garama & Madundung",
+    "La Grande Combinasion","Spaghetti Tualetti","Strawberry Elephant","Meowl","Skibidi Toilet"
 }
 
 local SelectedBrainrot = nil
@@ -132,7 +94,6 @@ Tab:CreateDropdown({
    Options = Brainrots,
    CurrentOption = {},
    MultipleOptions = false,
-   Flag = "BrainrotDropdown",
 
    Callback = function(Option)
       SelectedBrainrot = Option[1]
@@ -145,21 +106,50 @@ Tab:CreateButton({
 
     Callback = function()
         if SelectedBrainrot then
-            print("Spawned "..SelectedBrainrot)
+            local player = game.Players.LocalPlayer
+            local char = player.Character or player.CharacterAdded:Wait()
+            local hrp = char:WaitForChild("HumanoidRootPart")
 
             Rayfield:Notify({
                Title = "Spawned!",
-               Content = "Spawned "..SelectedBrainrot,
-               Duration = 3,
-               Image = nil,
+               Content = SelectedBrainrot,
+               Duration = 3
             })
+
+            local brainrot = Instance.new("Part")
+            brainrot.Size = Vector3.new(4, 4, 4)
+            brainrot.Anchored = true
+            brainrot.CanCollide = false
+            brainrot.Material = Enum.Material.Neon
+            brainrot.Color = Color3.fromRGB(255, 170, 0)
+            brainrot.Name = SelectedBrainrot
+
+            local basePos = hrp.Position + Vector3.new(0, 6, -6)
+            brainrot.Position = basePos
+            brainrot.Parent = workspace
+
+            -- floating animation (FIXED STABLE)
+            task.spawn(function()
+               local t = 0
+               while brainrot.Parent do
+                  t += 0.1
+                  brainrot.Position = basePos + Vector3.new(0, math.sin(t) * 1.5, 0)
+                  task.wait(0.03)
+               end
+            end)
+
+            -- KEEP YOUR 600 SECOND TIMER
+            task.delay(600, function()
+               if brainrot then
+                  brainrot:Destroy()
+               end
+            end)
 
         else
             Rayfield:Notify({
                Title = "Error",
                Content = "Select a brainrot first!",
-               Duration = 3,
-               Image = nil,
+               Duration = 3
             })
         end
     end,
