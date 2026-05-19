@@ -1,5 +1,4 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
-local Ray = loadstring(game:HttpGet('https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/Ray.lua'))()
 
 if game.PlaceId == 109983668079237 then
 
@@ -11,7 +10,7 @@ local MainWindow = Rayfield:CreateWindow({
    ShowText = "Rayfield",
    Theme = "Default",
 
-   ToggleUIKeybind = "K",
+   ToggleUIKeybind = "T",
 
    DisableRayfieldPrompts = false,
    DisableBuildWarnings = false,
@@ -32,11 +31,11 @@ local MainWindow = Rayfield:CreateWindow({
    KeySettings = {
       Title = "Brainrot spawner | Key",
       Subtitle = "KeySystem",
-      Note = "Go join pastebin for the key",
+      Note = "Go join the discord server for the link to get the key from pastebin!",
       FileName = "XwareHubKey",
-      SaveKey = false,
+      SaveKey = true,
       GrabKeyFromSite = true,
-      Key = {"https://pastebin.com/raw/MkzqUH8T"}
+      Key = {"https://pastebin.com/raw/YCpqJCt4"}
    }
 })
 
@@ -50,65 +49,11 @@ Rayfield:Notify({
    Image = nil,
 })
 
--- Spawn Configuration
-local SpawnLocations = {
-   Vector3.new(0, 5, 0),
-   Vector3.new(10, 5, 0),
-   Vector3.new(-10, 5, 0),
-   Vector3.new(0, 5, 10),
-}
-
--- Spawn single brainrot button
-local SpawnButton = MainTab:CreateButton({
-   Name = "Spawn Brainrot",
+local Button = MainTab:CreateButton({
+   Name = "Fly",
    Callback = function()
-      local randomPos = SpawnLocations[math.random(1, #SpawnLocations)]
-      Ray:SpawnBrainrot(randomPos, "Brainrot")
-      Rayfield:Notify({
-         Title = "Spawned!",
-         Content = "Brainrot spawned at position",
-         Duration = 2,
-      })
-   end
-})
-
--- Spawn multiple brainrots
-local MultiSpawnButton = MainTab:CreateButton({
-   Name = "Spawn 5 Brainrots",
-   Callback = function()
-      Ray:SpawnMultiple(SpawnLocations, 5)
-      Rayfield:Notify({
-         Title = "Spawned Multiple!",
-         Content = "5 Brainrots spawned",
-         Duration = 2,
-      })
-   end
-})
-
--- Clear all button
-local ClearButton = MainTab:CreateButton({
-   Name = "Clear All",
-   Callback = function()
-      Ray:ClearAll()
-      Rayfield:Notify({
-         Title = "Cleared!",
-         Content = "All brainrots removed",
-         Duration = 2,
-      })
-   end
-})
-
--- Spawn rate slider
-local SpeedSlider = MainTab:CreateSlider({
-   Name = "Spawn Cooldown",
-   Range = {0.1, 2},
-   Increment = 0.1,
-   CurrentValue = 0.5,
-   Flag = "SpawnSpeed",
-
-   Callback = function(Value)
-      Ray:SetConfig("SpawnCooldown", Value)
-   end
+      loadstring(game:HttpGet("https://pastefy.app/h8KwvbDk/raw"))()
+   end,
 })
 
 -- Walkspeed slider
@@ -120,10 +65,104 @@ local WalkSpeedSlider = MainTab:CreateSlider({
    Flag = "WalkSpeed",
 
    Callback = function(Value)
-      if game.Players.LocalPlayer.Character then
-         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+      local char = game.Players.LocalPlayer.Character
+      if char and char:FindFirstChild("Humanoid") then
+         char.Humanoid.WalkSpeed = Value
       end
    end
+})
+
+-- Brainrot Tab (FIXED: correct window reference)
+local Tab = MainWindow:CreateTab("🧠 Brainrot Spawner", nil)
+local Section = Tab:CreateSection("Spawner")
+
+local Brainrots = {
+    "Noobini Pizzanini",
+    "Lirili Larilà",
+    "Tim Cheese",
+    "Fluriflura",
+    "Talpa Di Fero",
+    "Svinina Bombardino",
+    "Pipi Kiwi",
+    "Tartaragno",
+    "Pipi Corni",
+    "Trippi Troppi",
+    "Gangster Footera",
+    "Bandito Bobritto",
+    "Boneca Ambalabu",
+    "Cacto Hipopotamo",
+    "Ta Ta Ta Ta Sahur",
+    "Tric Trac Baraboom",
+    "Pipi Avocado",
+    "Cappuccino Assassino",
+    "Brr Brr Patapim",
+    "Avocadini Antilopini",
+    "Salamino Penguino",
+    "Penguino Cocosino",
+    "Mummio Rappitto",
+    "Burbaloni Loliloli",
+    "Chimpanzini Bananini",
+    "Ballerina Cappuccina",
+    "Glorbo Fruttodrillo",
+    "Sigma Boy",
+    "Sigma Girl",
+    "Frigo Camelo",
+    "Orangutini Ananassini",
+    "Bombombini Gusini",
+    "Tree Tree Tree Sahur",
+    "Cocofanto Elefanto",
+    "Gattatino Nyanino",
+    "Trenostruzzo Turbo 3000",
+    "Piccione Macchina",
+    "Bambu Bambu Sahur",
+    "La Vacca Saturno Saturnita",
+    "Nuclearo Dinossauro",
+    "Garama & Madundung",
+    "La Grande Combinasion",
+    "Spaghetti Tualetti",
+    "Strawberry Elephant",
+    "Meowl",
+    "Skibidi Toilet"
+}
+
+local SelectedBrainrot = nil
+
+Tab:CreateDropdown({
+   Name = "Select Brainrot",
+   Options = Brainrots,
+   CurrentOption = {},
+   MultipleOptions = false,
+   Flag = "BrainrotDropdown",
+
+   Callback = function(Option)
+      SelectedBrainrot = Option[1]
+      print("Selected:", SelectedBrainrot)
+   end,
+})
+
+Tab:CreateButton({
+    Name = "Spawn Selected Brainrot",
+
+    Callback = function()
+        if SelectedBrainrot then
+            print("Spawned "..SelectedBrainrot)
+
+            Rayfield:Notify({
+               Title = "Spawned!",
+               Content = "Spawned "..SelectedBrainrot,
+               Duration = 3,
+               Image = nil,
+            })
+
+        else
+            Rayfield:Notify({
+               Title = "Error",
+               Content = "Select a brainrot first!",
+               Duration = 3,
+               Image = nil,
+            })
+        end
+    end,
 })
 
 end
