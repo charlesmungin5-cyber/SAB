@@ -2,6 +2,9 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 if game.PlaceId == 109983668079237 then
 
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
 local MainWindow = Rayfield:CreateWindow({
    Name = "Brainrot Spawner",
    Icon = 0,
@@ -27,17 +30,10 @@ local MainWindow = Rayfield:CreateWindow({
       RememberJoins = true
    },
 
-   KeySystem = false,
-   KeySettings = {
-      Title = "Brainrot spawner | Key",
-      Subtitle = "KeySystem",
-      Note = "Go join the discord server for the link to get the key from pastebin!",
-      FileName = "XwareHubKey",
-      SaveKey = true,
-      GrabKeyFromSite = true,
-      Key = {"https://pastebin.com/raw/YCpqJCt4"}
-   }
+   KeySystem = false
 })
+
+-- HOME TAB
 
 local MainTab = MainWindow:CreateTab("🏠 Home", nil)
 MainTab:CreateSection("Main")
@@ -57,76 +53,117 @@ MainTab:CreateButton({
 
 MainTab:CreateSlider({
    Name = "Walkspeed",
-   Range = {16, 250},
+   Range = {16,250},
    Increment = 1,
    CurrentValue = 16,
 
    Callback = function(Value)
-      local char = game.Players.LocalPlayer.Character
+      local char = LocalPlayer.Character
       if char and char:FindFirstChild("Humanoid") then
          char.Humanoid.WalkSpeed = Value
       end
-   end
+   end,
 })
 
--- Brainrot Tab
+-- BRAINROT TAB
+
 local Tab = MainWindow:CreateTab("🧠 Brainrot Spawner", nil)
 Tab:CreateSection("Spawner")
 
 local Brainrots = {
-    "Noobini Pizzanini","Lirili Larilà","Tim Cheese","Fluriflura","Talpa Di Fero",
-    "Svinina Bombardino","Pipi Kiwi","Tartaragno","Pipi Corni","Trippi Troppi",
-    "Gangster Footera","Bandito Bobritto","Boneca Ambalabu","Cacto Hipopotamo",
-    "Ta Ta Ta Ta Sahur","Tric Trac Baraboom","Pipi Avocado","Cappuccino Assassino",
-    "Brr Brr Patapim","Avocadini Antilopini","Salamino Penguino","Penguino Cocosino",
-    "Mummio Rappitto","Burbaloni Loliloli","Chimpanzini Bananini","Ballerina Cappuccina",
-    "Glorbo Fruttodrillo","Sigma Boy","Sigma Girl","Frigo Camelo","Orangutini Ananassini",
-    "Bombombini Gusini","Tree Tree Tree Sahur","Cocofanto Elefanto","Gattatino Nyanino",
-    "Trenostruzzo Turbo 3000","Piccione Macchina","Bambu Bambu Sahur",
-    "La Vacca Saturno Saturnita","Nuclearo Dinossauro","Garama & Madundung",
-    "La Grande Combinasion","Spaghetti Tualetti","Strawberry Elephant","Meowl","Skibidi Toilet"
+   "Noobini Pizzanini",
+   "Tim Cheese",
+   "Trippi Troppi",
+   "Gangster Footera",
+   "Ballerina Cappuccina",
+   "Sigma Boy",
+   "Sigma Girl",
+   "Bombombini Gusini",
+   "Tree Tree Tree Sahur",
+   "Piccione Macchina",
+   "Skibidi Toilet",
+   "Meowl",
+   "Strawberry Elephant"
 }
 
--- KEEP YOUR FULL DATABASE HERE
 local BrainrotStats = {
-    ["Noobini Pizzanini"] = {cost = 25, moneySec = 1},
-    ["Lirili Larila"] = {cost = 250, moneySec = 3},
-    ["Tim Cheese"] = {cost = 500, moneySec = 5},
-    ["FluriFlura"] = {cost = 750, moneySec = 7},
-    ["Talpa Di Fero"] = {cost = 1000, moneySec = 9},
-    ["Svinina Bombardino"] = {cost = 1200, moneySec = 10},
-    ["Pipi Kiwi"] = {cost = 1500, moneySec = 13},
-    ["Tartaragno"] = {cost = 1500, moneySec = 13},
-    ["Pipi Corni"] = {cost = 1700, moneySec = 14},
-    ["Trippi Troppi"] = {cost = 2000, moneySec = 15},
-    ["Gangster Footera"] = {cost = 4000, moneySec = 30},
-    ["Bandito Bobritto"] = {cost = 4500, moneySec = 35},
-    ["Boneca Ambalabu"] = {cost = 5000, moneySec = 40},
-    ["Cacto Hipopotamo"] = {cost = 6500, moneySec = 50},
-    ["Ta Ta Ta Ta Sahur"] = {cost = 7500, moneySec = 55},
-    ["Tric Trac Baraboom"] = {cost = 9000, moneySec = 65},
-    ["Pipi Avocado"] = {cost = 9500, moneySec = 70},
-    ["Cappuccino Assassino"] = {cost = 10000, moneySec = 75},
-    ["Brr Brr Patapim"] = {cost = 15000, moneySec = 100},
-    ["Avocadini Antilopini"] = {cost = 17500, moneySec = 115},
-    ["Salamino Penguino"] = {cost = 40000, moneySec = 250},
-    ["Penguino Cocosino"] = {cost = 45000, moneySec = 300},
-    ["Mummio Rappitto"] = {cost = 47500, moneySec = 325},
-    ["Burbaloni Loliloli"] = {cost = 35000, moneySec = 200},
-    ["Chimpanzini Bananini"] = {cost = 50000, moneySec = 300},
-    ["Ballerina Cappuccina"] = {cost = 100000, moneySec = 500},
-    ["Glorbo Fruttodrillo"] = {cost = 200000, moneySec = 750},
-    ["Sigma Boy"] = {cost = 325000, moneySec = 1300},
-    ["Sigma Girl"] = {cost = 340000, moneySec = 1800},
-    ["Frigo Camelo"] = {cost = 300000, moneySec = 1200},
-    ["Orangutini Ananassini"] = {cost = 400000, moneySec = 1700},
-    ["Bombombini Gusini"] = {cost = 1000000, moneySec = 5000},
-    ["Tree Tree Tree Sahur"] = {cost = 4900000, moneySec = 17000},
-    ["Piccione Macchina"] = {cost = 40000000, moneySec = 225000},
-    ["Nuclearo Dinossauro"] = {cost = 2500000000, moneySec = 15000000},
-    ["Strawberry Elephant"] = {cost = 500000000, moneySec = 250000000},
-    ["Meowl"] = {cost = 400000000, moneySec = 400000000},
-    ["Skibidi Toilet"] = {cost = 350000000, moneySec = 350000000},
+   ["Noobini Pizzanini"] = {
+      cost = 25,
+      moneySec = 1,
+      color = Color3.fromRGB(255,170,0)
+   },
+
+   ["Tim Cheese"] = {
+      cost = 500,
+      moneySec = 5,
+      color = Color3.fromRGB(255,255,0)
+   },
+
+   ["Trippi Troppi"] = {
+      cost = 2000,
+      moneySec = 15,
+      color = Color3.fromRGB(255,0,255)
+   },
+
+   ["Gangster Footera"] = {
+      cost = 4000,
+      moneySec = 30,
+      color = Color3.fromRGB(20,20,20)
+   },
+
+   ["Ballerina Cappuccina"] = {
+      cost = 100000,
+      moneySec = 500,
+      color = Color3.fromRGB(255,192,203)
+   },
+
+   ["Sigma Boy"] = {
+      cost = 325000,
+      moneySec = 1300,
+      color = Color3.fromRGB(0,170,255)
+   },
+
+   ["Sigma Girl"] = {
+      cost = 340000,
+      moneySec = 1800,
+      color = Color3.fromRGB(255,85,255)
+   },
+
+   ["Bombombini Gusini"] = {
+      cost = 1000000,
+      moneySec = 5000,
+      color = Color3.fromRGB(255,0,0)
+   },
+
+   ["Tree Tree Tree Sahur"] = {
+      cost = 4900000,
+      moneySec = 17000,
+      color = Color3.fromRGB(0,255,0)
+   },
+
+   ["Piccione Macchina"] = {
+      cost = 40000000,
+      moneySec = 225000,
+      color = Color3.fromRGB(120,120,120)
+   },
+
+   ["Skibidi Toilet"] = {
+      cost = 350000000,
+      moneySec = 350000000,
+      color = Color3.fromRGB(255,255,255)
+   },
+
+   ["Meowl"] = {
+      cost = 400000000,
+      moneySec = 400000000,
+      color = Color3.fromRGB(120,0,255)
+   },
+
+   ["Strawberry Elephant"] = {
+      cost = 500000000,
+      moneySec = 250000000,
+      color = Color3.fromRGB(255,80,120)
+   }
 }
 
 local SelectedBrainrot = nil
@@ -139,143 +176,165 @@ Tab:CreateDropdown({
 
    Callback = function(Option)
       SelectedBrainrot = Option[1]
-      print("Selected:", SelectedBrainrot)
    end,
 })
 
 Tab:CreateButton({
-    Name = "Spawn Selected Brainrot",
+   Name = "Spawn Selected Brainrot",
 
-    Callback = function()
+   Callback = function()
 
-        if SelectedBrainrot then
+      if not SelectedBrainrot then
+         Rayfield:Notify({
+            Title = "Error",
+            Content = "Select a brainrot first!",
+            Duration = 3
+         })
+         return
+      end
 
-            local player = game.Players.LocalPlayer
-            local char = player.Character or player.CharacterAdded:Wait()
-            local hrp = char:WaitForChild("HumanoidRootPart")
+      local stats = BrainrotStats[SelectedBrainrot]
 
-            local stats = BrainrotStats[SelectedBrainrot]
+      if not stats then
+         Rayfield:Notify({
+            Title = "Error",
+            Content = "No stats found!",
+            Duration = 3
+         })
+         return
+      end
 
-            if not stats then
-                stats = {
-                    cost = 1000,
-                    moneySec = 10
-                }
-            end
+      local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+      local hrp = char:WaitForChild("HumanoidRootPart")
 
-            -- MODEL
-            local brainrot = Instance.new("Model")
-            brainrot.Name = SelectedBrainrot
-            brainrot.Parent = workspace
+      -- MODEL
 
-            -- ROOT
-            local humanoidRootPart = Instance.new("Part")
-            humanoidRootPart.Name = "HumanoidRootPart"
-            humanoidRootPart.Shape = Enum.PartType.Ball
-            humanoidRootPart.Size = Vector3.new(3,3,3)
-            humanoidRootPart.Material = Enum.Material.Neon
-            humanoidRootPart.Color = Color3.fromRGB(255,170,0)
-            humanoidRootPart.Anchored = true
-            humanoidRootPart.CanCollide = false
-            humanoidRootPart.Parent = brainrot
+      local brainrot = Instance.new("Model")
+      brainrot.Name = SelectedBrainrot
+      brainrot.Parent = workspace
 
-            humanoidRootPart.CFrame =
-                hrp.CFrame * CFrame.new(0,3,-6)
+      -- ROOT
 
-            -- HEAD
-            local head = Instance.new("Part")
-            head.Name = "Head"
-            head.Shape = Enum.PartType.Ball
-            head.Size = Vector3.new(2,2,2)
-            head.Material = Enum.Material.SmoothPlastic
-            head.Color = Color3.fromRGB(255,255,255)
-            head.Anchored = true
-            head.CanCollide = false
-            head.Parent = brainrot
+      local root = Instance.new("Part")
+      root.Name = "HumanoidRootPart"
+      root.Size = Vector3.new(2,2,2)
+      root.Transparency = 1
+      root.Anchored = false
+      root.CanCollide = false
+      root.Position = hrp.Position + hrp.CFrame.LookVector * 8
+      root.Parent = brainrot
 
-            head.Position =
-                humanoidRootPart.Position + Vector3.new(0,3,0)
+      -- HEAD
 
-            -- FACE
-            local face = Instance.new("Decal")
-            face.Texture = "rbxasset://textures/face.png"
-            face.Face = Enum.NormalId.Front
-            face.Parent = head
+      local head = Instance.new("Part")
+      head.Name = "Head"
+      head.Shape = Enum.PartType.Ball
+      head.Size = Vector3.new(3,3,3)
+      head.Material = Enum.Material.Neon
+      head.Color = stats.color
+      head.Position = root.Position + Vector3.new(0,3,0)
+      head.Parent = brainrot
 
-            -- HUMANOID
-            local humanoid = Instance.new("Humanoid")
-            humanoid.Parent = brainrot
+      -- BODY
 
-            local animator = Instance.new("Animator")
-            animator.Parent = humanoid
+      local body = Instance.new("Part")
+      body.Name = "Body"
+      body.Size = Vector3.new(3,4,2)
+      body.Material = Enum.Material.SmoothPlastic
+      body.Color = stats.color
+      body.Position = root.Position
+      body.Parent = brainrot
 
-            -- LABEL
-            local billboard = Instance.new("BillboardGui")
-            billboard.Size = UDim2.new(0,220,0,60)
-            billboard.StudsOffset = Vector3.new(0,5,0)
-            billboard.AlwaysOnTop = true
-            billboard.Parent = humanoidRootPart
+      -- LEFT LEG
 
-            local text = Instance.new("TextLabel")
-            text.Size = UDim2.new(1,0,1,0)
-            text.BackgroundTransparency = 1
-            text.TextScaled = true
-            text.Font = Enum.Font.GothamBold
-            text.TextStrokeTransparency = 0
-            text.TextColor3 = Color3.fromRGB(255,255,255)
+      local leg1 = Instance.new("Part")
+      leg1.Size = Vector3.new(1,3,1)
+      leg1.Color = stats.color
+      leg1.Position = root.Position + Vector3.new(-0.8,-3,0)
+      leg1.Parent = brainrot
 
-            text.Text =
-                SelectedBrainrot ..
-                "\n$" .. stats.moneySec .. "/s"
+      -- RIGHT LEG
 
-            text.Parent = billboard
+      local leg2 = Instance.new("Part")
+      leg2.Size = Vector3.new(1,3,1)
+      leg2.Color = stats.color
+      leg2.Position = root.Position + Vector3.new(0.8,-3,0)
+      leg2.Parent = brainrot
 
-            -- FLOAT
-            task.spawn(function()
+      -- WELDS
 
-                local startPos = humanoidRootPart.Position
-                local t = 0
+      local function weld(a,b)
+         local w = Instance.new("WeldConstraint")
+         w.Part0 = a
+         w.Part1 = b
+         w.Parent = a
+      end
 
-                while brainrot.Parent do
+      weld(root,head)
+      weld(root,body)
+      weld(root,leg1)
+      weld(root,leg2)
 
-                    t += 0.05
+      -- HUMANOID
 
-                    local offset = math.sin(t) * 0.8
+      local humanoid = Instance.new("Humanoid")
+      humanoid.Parent = brainrot
 
-                    humanoidRootPart.Position =
-                        startPos + Vector3.new(0,offset,0)
+      brainrot.PrimaryPart = root
 
-                    head.Position =
-                        humanoidRootPart.Position + Vector3.new(0,3,0)
+      -- NAME TAG
 
-                    task.wait(0.03)
-                end
-            end)
+      local billboard = Instance.new("BillboardGui")
+      billboard.Size = UDim2.new(0,200,0,50)
+      billboard.AlwaysOnTop = true
+      billboard.StudsOffset = Vector3.new(0,5,0)
+      billboard.Parent = head
 
-            Rayfield:Notify({
-               Title = "Spawned!",
-               Content = SelectedBrainrot ..
-                    " - $" .. stats.moneySec .. "/s",
-               Duration = 3
-            })
+      local label = Instance.new("TextLabel")
+      label.Size = UDim2.new(1,0,1,0)
+      label.BackgroundTransparency = 1
+      label.TextScaled = true
+      label.TextColor3 = Color3.new(1,1,1)
+      label.TextStrokeTransparency = 0
+      label.Font = Enum.Font.GothamBold
+      label.Text = SelectedBrainrot .. "\n$" .. stats.moneySec .. "/s"
+      label.Parent = billboard
 
-            -- 600 SECOND TIMER
-            task.delay(600, function()
-               if brainrot then
-                  brainrot:Destroy()
-               end
-            end)
+      -- FLOAT ANIMATION
 
-        else
+      task.spawn(function()
+         local t = 0
 
-            Rayfield:Notify({
-               Title = "Error",
-               Content = "Select a brainrot first!",
-               Duration = 3
-            })
+         while brainrot.Parent do
+            t += 0.05
 
-        end
-    end,
+            root.CFrame = root.CFrame + Vector3.new(
+               0,
+               math.sin(t) * 0.03,
+               0
+            )
+
+            task.wait(0.03)
+         end
+      end)
+
+      -- NOTIFY
+
+      Rayfield:Notify({
+         Title = "Spawned!",
+         Content = SelectedBrainrot,
+         Duration = 3
+      })
+
+      -- 600 SECOND TIMER
+
+      task.delay(600,function()
+         if brainrot then
+            brainrot:Destroy()
+         end
+      end)
+
+   end,
 })
 
 end
