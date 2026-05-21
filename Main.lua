@@ -345,7 +345,7 @@ Tab:CreateButton({
 
 -- MISC TAB
 
-local MiscTab = MainWindow:CreateTab("🎲 Misc", 4483362458)
+local MiscTab = MainWindow:CreateTab("🎲 Misc", nil)
 MiscTab:CreateSection("Protection")
 
 -- Anti-Kick Setup
