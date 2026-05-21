@@ -2,9 +2,6 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 if game.PlaceId == 109983668079237 then
 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-
 local MainWindow = Rayfield:CreateWindow({
    Name = "Brainrot Spawner",
    Icon = 0,
@@ -30,9 +27,18 @@ local MainWindow = Rayfield:CreateWindow({
       RememberJoins = true
    },
 
-   KeySystem = false
-})
+   KeySystem = false,
 
+   KeySettings = {
+      Title = "Brainrot spawner | Key",
+      Subtitle = "KeySystem",
+      Note = "Go join the discord server for the link to get the key from pastebin!",
+      FileName = "XwareHubKey",
+      SaveKey = true,
+      GrabKeyFromSite = true,
+      Key = {"https://pastebin.com/raw/YCpqJCt4"}
+   }
+})
 -- HOME TAB
 
 local MainTab = MainWindow:CreateTab("🏠 Home", nil)
@@ -334,6 +340,114 @@ Tab:CreateButton({
          end
       end)
 
+   end,
+})
+
+-- MISC TAB
+
+local MiscTab = MainWindow:CreateTab("🎲 Misc", 4483362458)
+MiscTab:CreateSection("Protection")
+
+-- Anti-Kick Setup
+local antiKickEnabled = false
+local antiKickConnection
+
+local function setupAntiKick()
+   local oldKick = LocalPlayer.Kick
+   LocalPlayer.Kick = function(reason)
+      if antiKickEnabled then
+         Rayfield:Notify({
+            Title = "✅ Anti-Kick Active",
+            Content = "Blocked kick attempt!",
+            Duration = 2
+         })
+         return
+      end
+      oldKick(reason)
+   end
+end
+
+-- Anti-Ban Setup
+local antiBanEnabled = false
+
+local function setupAntiBan()
+   local ReplicatedStorage = game:GetService("ReplicatedStorage")
+   local Players = game:GetService("Players")
+   
+   -- Block ban RemoteEvents
+   for _, obj in pairs(ReplicatedStorage:GetDescendants()) do
+      if obj:IsA("RemoteEvent") and string.find(obj.Name:lower(), "ban") then
+         obj.OnClientEvent:Connect(function()
+            if antiBanEnabled then
+               Rayfield:Notify({
+                  Title = "✅ Anti-Ban Active",
+                  Content = "Blocked ban attempt!",
+                  Duration = 2
+               })
+               return
+            end
+         end)
+      end
+   end
+   
+   -- Block disconnect signals
+   LocalPlayer:GetPropertyChangedSignal("Parent"):Connect(function()
+      if antiBanEnabled and LocalPlayer.Parent == nil then
+         Rayfield:Notify({
+            Title = "✅ Anti-Ban Active",
+            Content = "Blocked removal from game!",
+            Duration = 2
+         })
+      end
+   end)
+end
+
+setupAntiKick()
+setupAntiBan()
+
+-- Anti-Kick Toggle
+MiscTab:CreateToggle({
+   Name = "Anti Kick",
+   CurrentValue = false,
+   Flag = "Antikick",
+   Callback = function(Value)
+      antiKickEnabled = Value
+      if Value then
+         Rayfield:Notify({
+            Title = "🛡️ Anti-Kick",
+            Content = "✅ Enabled",
+            Duration = 2
+         })
+      else
+         Rayfield:Notify({
+            Title = "🛡️ Anti-Kick",
+            Content = "❌ Disabled",
+            Duration = 2
+         })
+      end
+   end,
+})
+
+-- Anti-Ban Toggle
+MiscTab:CreateToggle({
+   Name = "Anti Ban",
+   CurrentValue = false,
+   Flag = "Antiban",
+   Callback = function(Value)
+      antiBanEnabled = Value
+      if Value then
+         Rayfield:Notify({
+            Title = "🛡️ Anti-Ban",
+            Content = "✅ Enabled",
+            Duration = 2
+         })
+      else
+         Rayfield:Notify({
+            Title = "🛡️ Anti-Ban",
+            Content = "❌ Disabled",
+            Duration = 2
+         })
+      end
    end,
 })
 
