@@ -406,7 +406,7 @@ setupAntiKick()
 setupAntiBan()
 
 -- Anti-Kick Toggle
-MiscTab:CreateToggle({
+local Toggle = Tab:CreateToggle({
    Name = "Anti Kick",
    CurrentValue = false,
    Flag = "Antikick",
@@ -429,7 +429,7 @@ MiscTab:CreateToggle({
 })
 
 -- Anti-Ban Toggle
-MiscTab:CreateToggle({
+local Toggle = Tab:CreateToggle({
    Name = "Anti Ban",
    CurrentValue = false,
    Flag = "Antiban",
